@@ -1,0 +1,21 @@
+{
+  "name": "export-stock-vehicles",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "export:vehicles": "tsx scripts/export.ts",
+    "export:vehicles:headless": "HEADLESS=1 tsx scripts/export.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "@types/node": "^24.2.0",
+    "dotenv": "^17.2.1",
+    "playwright": "^1.54.2",
+    "tsx": "^4.19.1",
+    "typescript": "^5.5.4"
+  }
+}
