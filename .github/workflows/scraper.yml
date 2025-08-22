@@ -1,0 +1,36 @@
+name: Export Stock Vehicles
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # cada 30 minutos (UTC)
+  workflow_dispatch: {}       # correr manualmente
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run scraper
+        env:
+          ONEPILOT_EMAIL: ${{ secrets.ONEPILOT_EMAIL }}
+          ONEPILOT_PASSWORD: ${{ secrets.ONEPILOT_PASSWORD }}
+          GOOGLE_SHEETS_ID: ${{ secrets.GOOGLE_SHEETS_ID }}
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+          HEADLESS: "1"
+        run: pnpm run scrape
