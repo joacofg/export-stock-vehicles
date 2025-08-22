@@ -3,6 +3,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 import dotenv from 'dotenv';
 import { chromium, type Download } from 'playwright';
+import { uploadXlsxToSheet } from '../helpers/google';
 
 dotenv.config();
 
@@ -108,6 +109,8 @@ async function main() {
     const out = path.join(DOWNLOAD_DIR, `stock-vehicles-${ts()}.xlsx`);
     await download.saveAs(out);
     console.log(out);
+    await uploadXlsxToSheet(out, 'Sheet1'); // cambia 'Hoja1' si tu pestaña tiene otro nombre
+    console.log('Subido a Google Sheets ✔');
   } finally {
     await browser.close();
   }
